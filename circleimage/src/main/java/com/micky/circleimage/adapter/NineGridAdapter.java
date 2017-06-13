@@ -24,14 +24,12 @@ import java.util.List;
 public class NineGridAdapter extends NineGridImageViewAdapter<String> {
 
     private Activity mActivity;
-    private Transferee mTransfereee;
     private List<ImageView> mImageViewList = new ArrayList<>();
 
     private int mPlaceHolderResId = R.mipmap.ic_empty_photo;
 
     public NineGridAdapter(Activity activity) {
         mActivity = activity;
-        mTransfereee = Transferee.getDefault(activity);
     }
 
     public void setPlaceHolderResId(int resId) {
@@ -90,7 +88,7 @@ public class NineGridAdapter extends NineGridImageViewAdapter<String> {
                 .setProgressIndicator(new ProgressPieIndicator())
                 .setImageLoader(GlideImageLoader.with(mActivity))
                 .create();
-        mTransfereee.apply(config).show(new Transferee.OnTransfereeStateChangeListener() {
+        Transferee.getDefault(mActivity).apply(config).show(new Transferee.OnTransfereeStateChangeListener() {
             @Override
             public void onShow() {
                 Glide.with(mActivity).pauseRequests();
@@ -101,11 +99,5 @@ public class NineGridAdapter extends NineGridImageViewAdapter<String> {
                 Glide.with(mActivity).resumeRequests();
             }
         });
-    }
-
-    public void destory() {
-        if (mTransfereee != null) {
-            mTransfereee.destroy();
-        }
     }
 }

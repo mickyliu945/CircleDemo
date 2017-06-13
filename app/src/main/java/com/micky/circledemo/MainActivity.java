@@ -29,10 +29,10 @@ public class MainActivity extends AppCompatActivity {
         mUrlList.add("http://i2.17173cdn.com/2fhnvk/YWxqaGBf/cms3/xNLzqtbkCdElEyC.jpg!a-3-640x.jpg");
         mUrlList.add("http://i1.17173cdn.com/2fhnvk/YWxqaGBf/cms3/vUFNHwbljxruktB.jpg!a-3-640x.jpg");
         mUrlList.add("http://ac-QYgvX1CC.clouddn.com/36f0523ee1888a57.jpg");
-//        mUrlList.add("http://ac-QYgvX1CC.clouddn.com/9ec4bc44bfaf07ed.jpg");
-//        mUrlList.add("http://ac-QYgvX1CC.clouddn.com/de13315600ba1cff.jpg");
-//        mUrlList.add("http://ac-QYgvX1CC.clouddn.com/10762c593798466a.jpg");
-//        mUrlList.add("http://ac-QYgvX1CC.clouddn.com/ad99de83e1e3f7d4.jpg");
+        mUrlList.add("http://ac-QYgvX1CC.clouddn.com/9ec4bc44bfaf07ed.jpg");
+        mUrlList.add("http://ac-QYgvX1CC.clouddn.com/de13315600ba1cff.jpg");
+        mUrlList.add("http://ac-QYgvX1CC.clouddn.com/10762c593798466a.jpg");
+        mUrlList.add("http://ac-QYgvX1CC.clouddn.com/ad99de83e1e3f7d4.jpg");
 
         mNineGridImageView = (NineGridImageView) findViewById(R.id.nineGridImageView);
         mNineGridAdapter  = new NineGridAdapter(this);
@@ -46,6 +46,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mNineGridAdapter.destory();
+        Transferee.destroy();
     }
 }

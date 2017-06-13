@@ -1,5 +1,6 @@
 package com.micky.circleimage.transfer.transfer;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,7 +30,7 @@ public class Transferee implements DialogInterface.OnShowListener,
 
     static volatile Transferee defaultInstance;
 
-    private Context context;
+    private Activity mActivity;
     private Dialog transDialog;
 
     private TransferLayout transLayout;
@@ -40,25 +41,32 @@ public class Transferee implements DialogInterface.OnShowListener,
     private boolean shown;
 
     /**
-     * 构造方法私有化，通过{@link #getDefault(Context)} 创建 transferee
+     * 构造方法私有化，通过{@link #getDefault(Activity)} 创建 transferee
      *
-     * @param context 上下文环境
+     * @param activity
      */
-    private Transferee(Context context) {
-        this.context = context;
+    private Transferee(Activity activity) {
+        this.mActivity = activity;
         creatLayout();
         createDialog();
     }
 
+    public Context getActivity() {
+        return mActivity;
+    }
+
     /**
-     * @param context
+     * @param activity
      * @return {@link Transferee}
      */
-    public static Transferee getDefault(Context context) {
+    public static Transferee getDefault(Activity activity) {
+        if (defaultInstance == null || defaultInstance.getActivity() == null || !defaultInstance.getActivity().equals(activity)) {
+            defaultInstance = null;
+        }
         if (defaultInstance == null) {
             synchronized (Transferee.class) {
                 if (defaultInstance == null) {
-                    defaultInstance = new Transferee(context);
+                    defaultInstance = new Transferee(activity);
                 }
             }
         }
@@ -66,12 +74,12 @@ public class Transferee implements DialogInterface.OnShowListener,
     }
 
     private void creatLayout() {
-        transLayout = new TransferLayout(context);
+        transLayout = new TransferLayout(mActivity);
         transLayout.setOnLayoutResetListener(this);
     }
 
     private void createDialog() {
-        transDialog = new AlertDialog.Builder(context, getDialogStyle())
+        transDialog = new AlertDialog.Builder(mActivity, getDialogStyle())
                 .setView(transLayout)
                 .create();
         transDialog.setOnShowListener(this);
@@ -182,9 +190,9 @@ public class Transferee implements DialogInterface.OnShowListener,
     }
 
     /**
-     * 销毁 transferee 组件
+     * 在应用退出时调用,销毁 transferee 组件
      */
-    public void destroy() {
+    public static void destroy() {
         defaultInstance = null;
     }
 
